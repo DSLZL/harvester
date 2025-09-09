@@ -176,12 +176,12 @@ class ConfigValidator:
         except ValueError as e:
             self.errors.append(f"Task {task.name} stage validation failed: {e}")
 
-        # Validate API configuration if use_api is True
-        if task.use_api:
+        # Validate API configuration if CheckStage is enabled
+        if task.stages.check or task.stages.inspect:
             if not task.api.base_url:
                 self.errors.append(f"API base URL required for task: {task.name}")
 
-            if not task.api.default_model:
+            if task.stages.check and not task.api.default_model:
                 self.errors.append(f"Default model required for API task: {task.name}")
 
         # Validate conditions
